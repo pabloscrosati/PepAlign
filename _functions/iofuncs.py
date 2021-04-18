@@ -1,7 +1,5 @@
-__description__ = \
-    ('\n'
-     'Functions for use in LC MD Simulations.\n'
-     'Compatible with Gromacs format.')
+__description__ = 'I/O handling functions for LC Gromacs MD Simulations'
+
 
 import getopt
 import sys
@@ -52,9 +50,9 @@ def cmd_parse(usage, input_file=None, output_file=None, topol_file=None):
 def file_open(file):
     # Read file by iterating through line
     with open(file) as f:
-        lines = [line.rstrip() for line in f]
+        config = [line.rstrip() for line in f]
 
-    return lines
+    return config
 
 
 # Parse GRO file format into individual lists
@@ -99,11 +97,18 @@ def gro_stitch(title, num_atoms, box_size, resid, resname, atomname, atomnum, x_
         for i in range(file_length):
             gro_file.append(resid[i].rjust(5) + resname[i].rjust(5) + atomname[i].rjust(5) + atomnum[i].rjust(5) +
                             x_c[i].rjust(8) + y_c[i].rjust(8) + z_c[i].rjust(8) + x_v[i].rjust(8) + y_v[i].rjust(8) +
-                            z_v[i].rjust(8))\
-
+                            z_v[i].rjust(8))
     # Add header and footer information
     gro_file.insert(0, num_atoms)
     gro_file.insert(0, title)
     gro_file.append(box_size)
 
     return gro_file
+
+
+# Write file function
+def file_writer(output_list, output_file):
+    with open(output_file, 'w') as f:
+        for item in output_list:
+            f.write("%s\n" % item)
+    print('%s was successfully written!' % output_file)

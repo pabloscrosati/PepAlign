@@ -1,1 +1,2 @@
-from .funcs import *
+from .iofuncs import *
+from .configfuncs import *
