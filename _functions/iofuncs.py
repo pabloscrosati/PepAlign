@@ -6,7 +6,7 @@ import sys
 
 
 # Parse command-line options
-def cmd_parse(usage, input_file=None, output_file=None, topol_file=None):
+def cmd_parse(usage, coordinate_file=None, slab_file=None, output_file=None, topol_file=None):
     # Check if arguments were provided
     argv = sys.argv[1:]
     if len(argv) < 1:
@@ -15,23 +15,25 @@ def cmd_parse(usage, input_file=None, output_file=None, topol_file=None):
         sys.exit(2)
 
     # Define short option flags
-    opts, args = getopt.getopt(argv, 'f:o:p:h')
+    opts, args = getopt.getopt(argv, 'f:o:p:s:h')
 
     # Find arguments from options
     for opt, arg in opts:
         if opt in ['-f']:
-            input_file = arg
+            coordinate_file = arg
         elif opt in ['-o']:
             output_file = arg
         elif opt in ['-p']:
             topol_file = arg
+        elif opt in ['-s']:
+            slab_file = arg
         elif opt in ['-h']:
             print(usage)
             sys.exit(1)
 
     # Handle exceptions and check for valid files
-    if input_file is None:
-        print('No input file specified, exiting...')
+    if coordinate_file is None:
+        print('No coordinate file specified, exiting...')
         sys.exit(2)
 
     if output_file is None:
@@ -39,11 +41,14 @@ def cmd_parse(usage, input_file=None, output_file=None, topol_file=None):
         print('output.gro')
         output_file = 'output.gro'
 
+    if slab_file is None:
+        print('No slab file specified, will not update slab.')
+
     if topol_file is None:
         print('No topology file specified, will not update topology.')
 
     # Return values
-    return input_file, output_file, topol_file
+    return coordinate_file, output_file, topol_file, slab_file
 
 
 # Open file function
