@@ -2,7 +2,7 @@ __description__ = 'Specific configuration manipulation functions for LC Gromacs 
 
 
 # Desolvate configuration file, update topology if specified
-def desolvate(config_list, topology):
+def desolvate(config_list):
     desolv_list = []
 
     # Find solvent atoms and create list excluding these atoms
@@ -14,17 +14,7 @@ def desolvate(config_list, topology):
     # Update atom count in header
     desolv_list[1] = str(len(desolv_list) - 3).rjust(8)
 
-    # Update topology file if file exists
-    if topology is not None:
-        topol = []
-        with open(topology) as f:
-            lines = [line.rstrip() for line in f]
-        for i in lines:
-            resid = i[0:3].strip()
-            if resid != 'SOL' and resid != 'ACN':
-                topol.append(i)
-
-    return desolv_list, topol
+    return desolv_list
 
 
 # Define box vectors from GRO file

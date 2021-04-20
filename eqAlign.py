@@ -10,4 +10,3 @@ import _functions as fcc
 print(__title__)
 print('Author: ' + __author__)
 
-fcc.cmd_parse(__usage__)

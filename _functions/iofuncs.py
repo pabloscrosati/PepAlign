@@ -1,6 +1,5 @@
 __description__ = 'I/O handling functions for LC Gromacs MD Simulations'
 
-
 import getopt
 import sys
 
@@ -72,17 +71,17 @@ def gro_parse(gro_file):
         if i == title or i == num_atoms or i == box_size:
             pass
         else:
-            resid.append(i[0:5].rstrip())
-            resname.append(i[5:10].rstrip())
-            atomname.append(i[10:15].rstrip())
-            atomnum.append(i[15:20].rstrip())
+            resid.append(i[0:5].strip())
+            resname.append(i[5:10].strip())
+            atomname.append(i[10:15].strip())
+            atomnum.append(i[15:20].strip())
             x_c.append(i[20:28].strip())
             y_c.append(i[28:36].strip())
             z_c.append(i[36:44].strip())
             x_v.append(i[44:52].strip())
             y_v.append(i[52:60].strip())
             z_v.append(i[60:68].strip())
-    return title, num_atoms, box_size, resid, resname, atomname, atomnum, x_c, y_c, z_c, x_v, y_v, z_v
+    return title.strip(), num_atoms.strip(), box_size.strip(), resid, resname, atomname, atomnum, x_c, y_c, z_c, x_v, y_v, z_v
 
 
 # Create gro file list
@@ -117,3 +116,27 @@ def file_writer(output_list, output_file):
         for item in output_list:
             f.write("%s\n" % item)
     print('%s was successfully written!' % output_file)
+
+
+# Logic for merging two coordinate files
+def merge_lists(list1, list2, major_list=None):
+    # Define which box vectors will be used in the final list
+    if major_list is None or major_list == 1:
+        box_size = list1[-1]
+        del list1[-1], list2[0], list2[0], list2[-1]
+        list1.extend(list2)
+        list1.append(box_size)
+    else:
+        del list1[0], list1[0], list1[-1]
+        list1.insert(0, list2[1])
+        list1.insert(0, list2[0])
+        del list2[0], list2[0]
+        list1.extend(list2)
+
+    return list1
+
+
+# Convert all elements of list to float
+def conv_float(str_list):
+    converted = [float(i) for i in str_list]
+    return converted
