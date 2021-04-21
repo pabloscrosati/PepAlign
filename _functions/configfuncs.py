@@ -25,7 +25,14 @@ def box_vectors(box_size):
 
 
 # Center chain in box
-def center_chain(chain_x, chain_y, box_x, box_y):
+def center_chain(chain_x_str, chain_y_str, box_x_str, box_y_str):
+
+    # Convert values
+    chain_x = [float(i) for i in chain_x_str]
+    chain_y = [float(i) for i in chain_y_str]
+    box_x = float(box_x_str)
+    box_y = float(box_y_str)
+
     # Find geometric center of chain
     x_cent = sum(chain_x) / len(chain_x)
     y_cent = sum(chain_y) / len(chain_y)
@@ -42,9 +49,9 @@ def center_chain(chain_x, chain_y, box_x, box_y):
     new_y = []
 
     for i in chain_x:
-        new_x.append(float(i) + float(trans_x))
+        new_x.append('%.3f' % (i + trans_x))
     for i in chain_y:
-        new_y.append(float(i) + float(trans_y))
+        new_y.append('%.3f' % (i + trans_y))
 
     return new_x, new_y
 
@@ -68,16 +75,19 @@ def dropdown(z_coord, min_coord):
 
 # Move coordinates up along z-axis
 def target_max(coordinates, max_height, offset):
+    # Convert coordinates to float
+    converted = [float(i) for i in coordinates]
+
     # Find max height of specified coordinate
-    z_max = max(coordinates)
+    z_max = max(converted)
 
     # Algebra for finding translation vector
-    target = max_height - offset
+    target = float(max_height) - offset
     difference = target - z_max
     new_list = []
 
     # Modify list
-    for i in coordinates:
-        new_list.append(float(i) + difference)
+    for i in converted:
+        new_list.append('%.3f' % (i + difference))
 
     return new_list

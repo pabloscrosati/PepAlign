@@ -122,18 +122,18 @@ def file_writer(output_list, output_file):
 def merge_lists(list1, list2, major_list=None):
     # Define which box vectors will be used in the final list
     if major_list is None or major_list == 1:
-        box_size = list1[-1]
-        del list1[-1], list2[0], list2[0], list2[-1]
+        list2[-1] = list1[-1]
+        del list1[-1], list2[0], list2[0]
         list1.extend(list2)
-        list1.append(box_size)
+        list1[1] = str(len(list1) - 3).rjust(7)
+        return list1
     else:
         del list1[0], list1[0], list1[-1]
-        list1.insert(0, list2[1])
-        list1.insert(0, list2[0])
-        del list2[0], list2[0]
-        list1.extend(list2)
-
-    return list1
+        list1.append(list2[-1])
+        del list2[-1]
+        list2.extend(list1)
+        list2[1] = str(len(list2) - 3).rjust(7)
+        return list2
 
 
 # Convert all elements of list to float
