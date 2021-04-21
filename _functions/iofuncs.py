@@ -5,7 +5,7 @@ import sys
 
 
 # Parse command-line options
-def cmd_parse(usage, coordinate_file=None, slab_file=None, output_file=None, topol_file=None):
+def cmd_parse(usage, coordinate_file=None, slab_file=None, output_file=None, topol_file=None, module=None):
     # Check if arguments were provided
     argv = sys.argv[1:]
     if len(argv) < 1:
@@ -14,12 +14,14 @@ def cmd_parse(usage, coordinate_file=None, slab_file=None, output_file=None, top
         sys.exit(2)
 
     # Define short option flags
-    opts, args = getopt.getopt(argv, 'f:o:p:s:h')
+    opts, args = getopt.getopt(argv, 'f:o:p:s:m:h')
 
     # Find arguments from options
     for opt, arg in opts:
         if opt in ['-f']:
             coordinate_file = arg
+        elif opt in ['-m']:
+            module = arg
         elif opt in ['-o']:
             output_file = arg
         elif opt in ['-p']:
@@ -40,14 +42,8 @@ def cmd_parse(usage, coordinate_file=None, slab_file=None, output_file=None, top
         print('output.gro')
         output_file = 'output.gro'
 
-    if slab_file is None:
-        print('No slab file specified, will not update slab.')
-
-    if topol_file is None:
-        print('No topology file specified, will not update topology.')
-
     # Return values
-    return coordinate_file, output_file, topol_file, slab_file
+    return coordinate_file, output_file, topol_file, slab_file, module
 
 
 # Open file function
@@ -140,3 +136,10 @@ def merge_lists(list1, list2, major_list=None):
 def conv_float(str_list):
     converted = [float(i) for i in str_list]
     return converted
+
+
+# Adjust atom count
+def atm_count(list):
+    list[1] = str(len(list) - 3).rjust(7)
+
+    return list
