@@ -2,8 +2,8 @@
 **Version 1.1, Written by: Pablo Scrosati**
 
 ## Umbrella Sampling Configurations
-Usage:`python umbAlign.py -f [peptide.gro] -s [slab.gro] -o [output.gro]`
-####To Do
+Usage:`python umbAlign.py -f [peptide.gro] -s [slab.gro] -o [output.gro] -m [module, 1 or 2]`
+#### To Do
 * Add command-line interpretation for determining module
 
 ### Initial Burial (Module 1)
@@ -18,10 +18,11 @@ Usage:`python umbAlign.py -f [peptide.gro] -s [slab.gro] -o [output.gro]`
     
 ### Configuration for Defining Reaction Coordinate (Module 2)
 #### Current Functionality
-* None
+* Brings buried peptide and slab configuration to box minimum to define reaction coordinate
+* Writes output configuration file in .gro format
 #### To Do
-* Write logic for reorienting configuration
-    * Functions exist, control logic needed
+* Add topology modification support
+    * Topology handling exists in I/O handling, missing logic when reading configuration files
     
 ## Equilibrium Simulations
 Usage:`python eqAlign.py -f [peptide.gro] -s [slab.gro] -o [output.gro]`
