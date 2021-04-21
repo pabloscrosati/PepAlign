@@ -4,7 +4,7 @@
 ## Umbrella Sampling Configurations
 Usage:`python umbAlign.py -f [peptide.gro] -s [slab.gro] -o [output.gro] -m [module, 1 or 2]`
 #### To Do
-* Add command-line interpretation for determining module
+* Topology handling logic
 
 ### Initial Burial (Module 1)
 #### Current Functionality
