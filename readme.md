@@ -26,6 +26,10 @@ Usage:`python umbAlign.py -f [peptide.gro] -s [slab.gro] -o [output.gro] -m [mod
     
 ## Equilibrium Simulations
 Usage:`python eqAlign.py -f [peptide.gro] -s [slab.gro] -o [output.gro]`
-### Program Objectives
-* Create reproducible initial conditions for peptide positioning
-* Orient peptide at box extreme
+#### Current Functionality
+* Aligns and centers peptide in slab box at top of box
+* Writes output configuration in .gro format
+#### To Do
+* Add topology modification support
+    * Topology handling exists in I/O handling, missing logic when reading configuration files
+    
