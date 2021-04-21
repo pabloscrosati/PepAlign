@@ -1,4 +1,4 @@
-__description__ = 'I/O handling functions for LC Gromacs MD Simulations'
+__description__ = 'I/O handling functions for LC Gromacs MD Simulations, v1.1'
 
 import getopt
 import sys

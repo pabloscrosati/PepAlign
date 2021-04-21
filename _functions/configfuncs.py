@@ -1,4 +1,4 @@
-__description__ = 'Specific configuration manipulation functions for LC Gromacs MD Simulations'
+__description__ = 'Specific configuration manipulation functions for LC Gromacs MD Simulations, v1.1'
 
 
 # Desolvate configuration file, update topology if specified
