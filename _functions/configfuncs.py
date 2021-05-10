@@ -1,5 +1,5 @@
-__description__ = 'Specific configuration manipulation functions for LC Gromacs MD Simulations, v1.1'
-
+__description__ = 'Specific configuration manipulation functions for LC Gromacs MD Simulations'
+__version__ = '1.1.1'
 
 # Desolvate configuration file, update topology if specified
 def desolvate(config_list):
@@ -91,3 +91,107 @@ def target_max(coordinates, max_height, offset):
         new_list.append('%.3f' % (i + difference))
 
     return new_list
+
+
+# Removes solvent that is out of the defined space (in z-axis)
+def box_trim(target_max, resid, resname, atomname, atomnum, x_c, y_c, z_c, x_v, y_v, z_v, final_list=[]):
+
+    # Variables to track included solvent and rejection state
+    SOL_count = 0
+    ACN_count = 0
+    ok_flag = 1
+
+    # Main function loop to scan all residues for solvent
+    for i in range(len(resid)):
+
+        # Logic to search for waters
+        # This logic assumes standard GROMACS 3-point water naming
+        if atomname[i] == 'OW':
+            if float(z_c[i]) < float(target_max):
+                ok_flag = 0
+            else:
+                ok_flag = 1
+        elif atomname[i] == 'HW1':
+            if float(z_c[i]) < float(target_max) and ok_flag == 0:
+                ok_flag = 0
+            else:
+                ok_flag = 1
+
+        # Write valid water atoms to final list
+        elif atomname[i] == 'HW2':
+            if float(z_c[i]) < float(target_max) and ok_flag == 0:
+                final_list.append(resid[i - 2].rjust(5) + resname[i - 2].rjust(5) + atomname[i - 2].rjust(5) +
+                                  atomnum[i - 2].rjust(5) + x_c[i - 2].rjust(8) + y_c[i - 2].rjust(8) +
+                                  z_c[i - 2].rjust(8) + x_v[i - 2].rjust(8) + y_v[i - 2].rjust(8) + z_v[i - 2].rjust(8))
+                final_list.append(resid[i - 1].rjust(5) + resname[i - 1].rjust(5) + atomname[i - 1].rjust(5) +
+                                  atomnum[i - 1].rjust(5) + x_c[i - 1].rjust(8) + y_c[i - 1].rjust(8) +
+                                  z_c[i - 1].rjust(8) + x_v[i - 1].rjust(8) + y_v[i - 1].rjust(8) + z_v[i - 1].rjust(8))
+                final_list.append(resid[i].rjust(5) + resname[i].rjust(5) + atomname[i].rjust(5) + atomnum[i].rjust(5) +
+                                  x_c[i].rjust(8) + y_c[i].rjust(8) + z_c[i].rjust(8) + x_v[i].rjust(8) +
+                                  y_v[i].rjust(8) + z_v[i].rjust(8))
+                SOL_count += 1
+                ok_flag = 1
+            else:
+                ok_flag = 1
+
+        # Logic to search for acetonitrile atoms
+        elif atomname[i] == 'C1' and resname[i] == 'ACN':
+            if float(z_c[i]) < float(target_max):
+                ok_flag = 0
+            else:
+                ok_flag = 1
+        elif atomname[i] == 'H11' and resname[i] == 'ACN':
+            if float(z_c[i]) < float(target_max) and ok_flag == 0:
+                ok_flag = 0
+            else:
+                ok_flag = 1
+        elif atomname[i] == 'H12' and resname[i] == 'ACN':
+            if float(z_c[i]) < float(target_max) and ok_flag == 0:
+                ok_flag = 0
+            else:
+                ok_flag = 1
+        elif atomname[i] == 'H13' and resname[i] == 'ACN':
+            if float(z_c[i]) < float(target_max) and ok_flag == 0:
+                ok_flag = 0
+            else:
+                ok_flag = 1
+        elif atomname[i] == 'C2' and resname[i] == 'ACN':
+            if float(z_c[i]) < float(target_max) and ok_flag == 0:
+                ok_flag = 0
+            else:
+                ok_flag = 1
+
+        # Write valid acetonitrile molecules to final list
+        elif atomname[i] == 'N3' and resname[i] == 'ACN':
+            if float(z_c[i]) < float(target_max) and ok_flag == 0:
+                final_list.append(resid[i - 5].rjust(5) + resname[i - 5].rjust(5) + atomname[i - 5].rjust(5) +
+                                  atomnum[i - 5].rjust(5) + x_c[i - 5].rjust(8) + y_c[i - 5].rjust(8) +
+                                  z_c[i - 5].rjust(8) + x_v[i - 5].rjust(8) + y_v[i - 5].rjust(8) + z_v[i - 5].rjust(8))
+                final_list.append(resid[i - 4].rjust(5) + resname[i - 4].rjust(5) + atomname[i - 4].rjust(5) +
+                                  atomnum[i - 4].rjust(5) + x_c[i - 4].rjust(8) + y_c[i - 4].rjust(8) +
+                                  z_c[i - 4].rjust(8) + x_v[i - 4].rjust(8) + y_v[i - 4].rjust(8) + z_v[i - 4].rjust(8))
+                final_list.append(resid[i - 3].rjust(5) + resname[i - 3].rjust(5) + atomname[i - 3].rjust(5) +
+                                  atomnum[i - 3].rjust(5) + x_c[i - 3].rjust(8) + y_c[i - 3].rjust(8) +
+                                  z_c[i - 3].rjust(8) + x_v[i - 3].rjust(8) + y_v[i - 3].rjust(8) + z_v[i - 3].rjust(8))
+                final_list.append(resid[i - 2].rjust(5) + resname[i - 2].rjust(5) + atomname[i - 2].rjust(5) +
+                                  atomnum[i - 2].rjust(5) + x_c[i - 2].rjust(8) + y_c[i - 2].rjust(8) +
+                                  z_c[i - 2].rjust(8) + x_v[i - 2].rjust(8) + y_v[i - 2].rjust(8) + z_v[i - 2].rjust(8))
+                final_list.append(resid[i - 1].rjust(5) + resname[i - 1].rjust(5) + atomname[i - 1].rjust(5) +
+                                  atomnum[i - 1].rjust(5) + x_c[i - 1].rjust(8) + y_c[i - 1].rjust(8) +
+                                  z_c[i - 1].rjust(8) + x_v[i - 1].rjust(8) + y_v[i - 1].rjust(8) + z_v[i - 1].rjust(8))
+                final_list.append(resid[i].rjust(5) + resname[i].rjust(5) + atomname[i].rjust(5) + atomnum[i].rjust(5) +
+                                  x_c[i].rjust(8) + y_c[i].rjust(8) + z_c[i].rjust(8) + x_v[i].rjust(8) +
+                                  y_v[i].rjust(8) + z_v[i].rjust(8))
+                ACN_count += 1
+                ok_flag = 1
+            else:
+                ok_flag = 1
+
+        # Write all other atoms to list
+        else:
+            final_list.append(resid[i].rjust(5) + resname[i].rjust(5) + atomname[i].rjust(5) + atomnum[i].rjust(5) +
+                              x_c[i].rjust(8) + y_c[i].rjust(8) + z_c[i].rjust(8) + x_v[i].rjust(8) +
+                              y_v[i].rjust(8) + z_v[i].rjust(8))
+
+    # Returns final configuration list, counters for included solvent, and list size
+    return final_list, SOL_count, ACN_count, len(final_list)
