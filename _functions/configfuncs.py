@@ -1,5 +1,5 @@
 __description__ = 'Specific configuration manipulation functions for LC Gromacs MD Simulations'
-__version__ = '1.1.1'
+__version__ = '1.1.2'
 
 # Desolvate configuration file, update topology if specified
 def desolvate(config_list):

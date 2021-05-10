@@ -1,5 +1,5 @@
 __program__ = 'Peptide Aligner for Equilibrium LC Simulations'
-__version__ = '1.1'
+__version__ = '1.1.2'
 __title__ = __program__ + ' v' + __version__
 __author__ = 'Pablo Scrosati'
 __usage__ = 'eqAlign.py -f [*coordinate file, .gro] -s [*slab file, .gro] -o [output file, .gro]'

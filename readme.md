@@ -1,5 +1,5 @@
 # Peptide Aligner for LC MD Gromacs Simulations
-**Version 1.1.1, Written by: Pablo Scrosati**
+**Version 1.1.2, Written by: Pablo Scrosati**
 
 See changelog.md for updates.
 

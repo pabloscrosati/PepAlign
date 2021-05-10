@@ -1,5 +1,5 @@
 __program__ = 'Box Height Adjuster'
-__version__ = '0.2'
+__version__ = '0.3'
 __title__ = __program__ + ' v' + __version__
 __author__ = 'Pablo Scrosati'
 __usage__ = 'boxAdjuster.py -f [*coordinate file, .gro] -p [topology file, .top] -o [output file, .gro]'

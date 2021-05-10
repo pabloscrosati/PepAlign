@@ -1,5 +1,5 @@
 __description__ = 'I/O handling functions for LC Gromacs MD Simulations'
-__version__ = '1.1.1'
+__version__ = '1.1.2'
 
 import getopt
 import sys

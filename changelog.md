@@ -1,4 +1,7 @@
 # Changelog
+## Version 1.1.2
+### May 9, 2021
+* Small update to integrate new scripts
 ## Version 1.1.1
 ### May 9, 2021
 * Addition of additional modules useful for PepAlign
